@@ -5,9 +5,10 @@
 /* eslint-disable no-param-reassign */
 
 const yargs = require('yargs');
-const { tmpdir } = require('os');
+const {tmpdir} = require('os');
 const TikTokScraper = require('../build');
 const CONST = require('../build/constant');
+const SIGN = require('../build/helpers');
 
 const startScraper = async argv => {
     try {
@@ -69,6 +70,19 @@ const startScraper = async argv => {
     }
 };
 
+const signStarter = async argv => {
+    try {
+        const userAgent = argv.userAgent;
+        console.log(`userAgent: ${userAgent}`)
+        const url = argv.url;
+        console.log(`url: ${url}`)
+        const signature = SIGN.sign(userAgent, url);
+        console.log(`SignatureReadLine=${signature}`)
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 yargs
     .usage('Usage: $0 <command> [options]')
     .example(`$0 user USERNAME -d -n 100`)
@@ -103,6 +117,9 @@ yargs
     })
     .command('userprofile [id]', 'Show user metadata', {}, argv => {
         startScraper(argv);
+    })
+    .command('sign <userAgent> <url>', 'Sign', {}, argv => {
+        signStarter(argv);
     })
     .options({
         help: {

@@ -11,6 +11,7 @@ export = {
         'video',
         'from-file',
         'userprofile',
+        'sign',
     ],
     history: ['user', 'hashtag', 'trend', 'music'],
     sourceType: {
